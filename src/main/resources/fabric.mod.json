@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "rematica",
+  "version": "${version}",
+  "name": "Rematica",
+  "description": "A litematica extension to manage remote litematics",
+  "authors": [
+    "iDarkLightning"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/rematica/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "io.github.idarklightning.rematica.Rematica"
+    ]
+  },
+  "mixins": [
+    "rematica.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
