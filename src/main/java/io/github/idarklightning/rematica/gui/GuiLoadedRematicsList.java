@@ -13,7 +13,6 @@ import io.github.idarklightning.rematica.Rematic;
 import io.github.idarklightning.rematica.gui.widgets.WidgetListLoadedRematics;
 import io.github.idarklightning.rematica.gui.widgets.WidgetRematicEntry;
 import io.github.idarklightning.rematica.util.AddRepository;
-import net.minecraft.client.gui.screen.Screen;
 
 public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEntry, WidgetListLoadedRematics> {
     private static String searchQuery;
@@ -39,7 +38,7 @@ public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEnt
             String label = StringUtils.translate("rematica.gui.add_repo");
             button = new ButtonGeneric(12, posY, this.getStringWidth(label) + 20,
                     20, label);
-            this.addButton(button, new ButtonListener());
+            this.addButton(button, new ButtonListener(this));
 
             GuiMainMenu.ButtonListenerChangeMenu.ButtonType type = GuiMainMenu.ButtonListenerChangeMenu.ButtonType.MAIN_MENU;
             label = StringUtils.translate(type.getLabelKey());
@@ -51,7 +50,7 @@ public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEnt
 
     @Override
     protected WidgetListLoadedRematics createListWidget(int listX, int listY) {
-        return new WidgetListLoadedRematics(listX, listY, this.getBrowserWidth(), this.getBrowserHeight());
+        return new WidgetListLoadedRematics(listX, listY, this.getBrowserWidth(), this.getBrowserHeight(), this);
     }
 
     @Override
@@ -65,10 +64,16 @@ public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEnt
     }
 
     private static class ButtonListener implements IButtonActionListener {
+        private final GuiLoadedRematicsList gui;
+
+        ButtonListener(final GuiLoadedRematicsList gui) {
+            this.gui = gui;
+        }
+
         @Override
         public void actionPerformedWithButton(ButtonBase buttonBase, int mouseButton) {
             GuiTextInput gui = new GuiTextInput(2048, StringUtils.translate("rematica.gui.new_repo"), "",
-                    GuiUtils.getCurrentScreen(), new AddRepository());
+                    GuiUtils.getCurrentScreen(), new AddRepository(this.gui));
             GuiBase.openGui(gui);
         }
     }

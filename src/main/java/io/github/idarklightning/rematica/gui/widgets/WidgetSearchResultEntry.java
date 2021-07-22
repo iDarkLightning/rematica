@@ -46,19 +46,18 @@ public class WidgetSearchResultEntry extends WidgetListEntryBase<SearchResult> {
         y += 1;
 
         int posX = x + width;
-        int buttonWidth;
         ButtonListener listener;
         String label;
 
         label = StringUtils.translate("rematica.gui.load_litematic");
-        buttonWidth = this.getStringWidth(label) + 10;
+        int buttonWidth1 = this.getStringWidth(label) + 10;
         listener = new ButtonListener(ButtonListener.Action.LOAD, this.gui, rematic, this.result);
-        this.addButton(new ButtonGeneric(posX - (buttonWidth + 2), y, buttonWidth, 20, label), listener);
+        this.addButton(new ButtonGeneric(posX - (buttonWidth1 + 2), y, buttonWidth1, 20, label), listener);
 
         label = StringUtils.translate("rematica.gui.materials_list");
-        buttonWidth = this.getStringWidth(label) + 10;
+        int buttonWidth2 = this.getStringWidth(label) + 10;
         listener = new ButtonListener(ButtonListener.Action.MATERIALS, this.gui, rematic, this.result);
-        this.addButton(new ButtonGeneric(posX - (buttonWidth + 2) - 140, y, buttonWidth, 20, label), listener);
+        this.addButton(new ButtonGeneric(posX - (buttonWidth2 + 2) - buttonWidth1, y, buttonWidth2, 20, label), listener);
     }
 
     @Override

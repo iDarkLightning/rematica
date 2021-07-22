@@ -1,9 +1,11 @@
 {
   "rematica.gui.search_rematics": "Search Rematics",
+  "rematica.gui.remove_repo": "Remove Repository",
   "rematica.gui.search_repo": "Search Repository for Rematics",
   "rematica.gui.load_litematic": "Load Litematic",
   "rematica.gui.materials_list": "Materials List",
   "rematica.gui.add_repo": "Add New Repository",
   "rematica.gui.new_repo": "New Repository URL:",
-  "rematica.gui.loaded_rematics": "Loaded Rematics"
+  "rematica.gui.loaded_rematics": "Loaded Rematics",
+  "rematica.gui.invalid_repo": "Invalid Repository"
 }

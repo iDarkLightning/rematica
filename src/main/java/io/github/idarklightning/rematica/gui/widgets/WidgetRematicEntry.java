@@ -10,6 +10,8 @@ import fi.dy.masa.malilib.render.RenderUtils;
 import fi.dy.masa.malilib.util.GuiUtils;
 import fi.dy.masa.malilib.util.StringUtils;
 import io.github.idarklightning.rematica.Rematic;
+import io.github.idarklightning.rematica.Rematica;
+import io.github.idarklightning.rematica.gui.GuiLoadedRematicsList;
 import io.github.idarklightning.rematica.util.SearchLitematics;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -17,7 +19,7 @@ public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
     private final Rematic placement;
     private final boolean isOdd;
 
-    public WidgetRematicEntry(final int x, int y, final int width, final int height, final Rematic entry,
+    public WidgetRematicEntry(final int x, int y, final int width, final int height, final Rematic entry, GuiLoadedRematicsList gui,
                                                 final int listIndex) {
         super(x, y, width, height, entry, listIndex);
         placement = entry;
@@ -25,14 +27,18 @@ public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
         y += 1;
 
         int posX = x + width;
-        int buttonWidth;
         ButtonListener listener;
         String label;
 
+        label = StringUtils.translate("rematica.gui.remove_repo");
+        int buttonWidth1 = this.getStringWidth(label) + 10;
+        listener = new ButtonListener(ButtonListener.Action.REMOVE, gui, this.placement);
+        this.addButton(new ButtonGeneric(posX - (buttonWidth1 + 2), y, buttonWidth1, 20, label), listener);
+
         label = StringUtils.translate("rematica.gui.search_rematics");
-        buttonWidth = this.getStringWidth(label) + 10;
-        listener = new ButtonListener(ButtonListener.Action.SEARCH, this.placement);
-        this.addButton(new ButtonGeneric(posX - (buttonWidth + 2), y, buttonWidth, 20, label), listener);
+        int buttonWidth2 = this.getStringWidth(label) + 10;
+        listener = new ButtonListener(ButtonListener.Action.SEARCH, gui, this.placement);
+        this.addButton(new ButtonGeneric(posX - (buttonWidth2 + 2) - buttonWidth1, y, buttonWidth2, 20, label), listener);
     }
 
     @Override
@@ -59,29 +65,38 @@ public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
     private static class ButtonListener implements IButtonActionListener {
         Action action;
         Rematic rematic;
+        GuiLoadedRematicsList gui;
 
-        ButtonListener(final Action action, final Rematic rematic) {
+        ButtonListener(final Action action, final GuiLoadedRematicsList gui, final Rematic rematic) {
             this.action = action;
             this.rematic = rematic;
+            this.gui = gui;
         }
 
         @Override
         public void actionPerformedWithButton(ButtonBase buttonBase, int mouseButton) {
             if (action == null) return;
-            action.dispatch(rematic);
+            action.dispatch(this.gui, rematic);
         }
 
         public enum Action {
             SEARCH() {
                 @Override
-                void dispatch(final Rematic rematic) {
-                    GuiTextInput gui = new GuiTextInput(2048, StringUtils.translate("rematica.gui.search_repo"), "",
+                void dispatch(GuiLoadedRematicsList gui,final Rematic rematic) {
+                    GuiTextInput textInput = new GuiTextInput(2048, StringUtils.translate("rematica.gui.search_repo"), "",
                             GuiUtils.getCurrentScreen(), new SearchLitematics(rematic));
+                    GuiBase.openGui(textInput);
+                }
+            },
+            REMOVE() {
+                @Override
+                void dispatch(GuiLoadedRematicsList gui, Rematic rematic) {
+                    Rematica.REMATICS.remove(rematic);
                     GuiBase.openGui(gui);
                 }
             };
 
-            abstract void dispatch(Rematic rematic);
+            abstract void dispatch(GuiLoadedRematicsList gui, Rematic rematic);
         }
     }
 }
