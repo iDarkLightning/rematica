@@ -4,6 +4,7 @@ package io.github.idarklightning.rematica.mixin.litematica;
 import fi.dy.masa.litematica.gui.GuiMainMenu;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.gui.button.ButtonGeneric;
+import fi.dy.masa.malilib.util.StringUtils;
 import io.github.idarklightning.rematica.gui.ButtonListener;
 import io.github.idarklightning.rematica.gui.MainMenuButtonType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +30,7 @@ public abstract class GuiMainMenuMixin extends GuiBase {
     @Inject(method = "initGui", at = @At("RETURN"))
     private void initGui(CallbackInfo ci) {
         int width = this.getButtonWidth();
-        ButtonGeneric button = new ButtonGeneric(width + 32, 74, width, 20, "Load Rematics");
+        ButtonGeneric button = new ButtonGeneric(width + 32, 74, width, 20, StringUtils.translate("rematica.gui.loaded_rematics"));
         this.addButton(button, new ButtonListener(MainMenuButtonType.VIEW_REMATICS, this));
     }
 }

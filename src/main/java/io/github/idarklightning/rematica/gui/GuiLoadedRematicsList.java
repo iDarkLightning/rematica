@@ -16,6 +16,8 @@ import io.github.idarklightning.rematica.util.AddRepository;
 import net.minecraft.client.gui.screen.Screen;
 
 public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEntry, WidgetListLoadedRematics> {
+    private static String searchQuery;
+    private static Rematic currentRematic;
 
     public GuiLoadedRematicsList() {
         super(12, 30);
@@ -24,21 +26,27 @@ public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEnt
 
     @Override
     public void initGui() {
-        super.initGui();
+        if (searchQuery != null && currentRematic != null && !searchQuery.isEmpty()) {
+            GuiBase.openGui(new GuiSearchResults(searchQuery, currentRematic));
+            searchQuery = null;
+            currentRematic = null;
+        } else {
+            super.initGui();
 
-        ButtonGeneric button;
-        int posY = this.height - 26;
+            ButtonGeneric button;
+            int posY = this.height - 26;
 
-        String label = StringUtils.translate("rematica.gui.add_repo");
-        button = new ButtonGeneric(12, posY, this.getStringWidth(label) + 20,
-                20, label);
-        this.addButton(button, new ButtonListener());
+            String label = StringUtils.translate("rematica.gui.add_repo");
+            button = new ButtonGeneric(12, posY, this.getStringWidth(label) + 20,
+                    20, label);
+            this.addButton(button, new ButtonListener());
 
-        GuiMainMenu.ButtonListenerChangeMenu.ButtonType type = GuiMainMenu.ButtonListenerChangeMenu.ButtonType.MAIN_MENU;
-        label = StringUtils.translate(type.getLabelKey());
-        int buttonWidth = this.getStringWidth(label) + 20;
-        button = new ButtonGeneric(this.width - buttonWidth - 10, posY, buttonWidth, 20, label);
-        this.addButton(button, new GuiMainMenu.ButtonListenerChangeMenu(type, this.getParent()));
+            GuiMainMenu.ButtonListenerChangeMenu.ButtonType type = GuiMainMenu.ButtonListenerChangeMenu.ButtonType.MAIN_MENU;
+            label = StringUtils.translate(type.getLabelKey());
+            int buttonWidth = this.getStringWidth(label) + 20;
+            button = new ButtonGeneric(this.width - buttonWidth - 10, posY, buttonWidth, 20, label);
+            this.addButton(button, new GuiMainMenu.ButtonListenerChangeMenu(type, this.getParent()));
+        }
     }
 
     @Override
@@ -65,4 +73,11 @@ public class GuiLoadedRematicsList extends GuiListBase<Rematic, WidgetRematicEnt
         }
     }
 
+    public static void setSearchQuery(String searchQuery) {
+        GuiLoadedRematicsList.searchQuery = searchQuery;
+    }
+
+    public static void setCurrentRematic(Rematic currentRematic) {
+        GuiLoadedRematicsList.currentRematic = currentRematic;
+    }
 }

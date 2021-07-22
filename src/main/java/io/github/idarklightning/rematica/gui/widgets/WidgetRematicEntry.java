@@ -1,22 +1,17 @@
 package io.github.idarklightning.rematica.gui.widgets;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import fi.dy.masa.litematica.config.Configs;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.gui.GuiTextInput;
 import fi.dy.masa.malilib.gui.button.ButtonBase;
 import fi.dy.masa.malilib.gui.button.ButtonGeneric;
 import fi.dy.masa.malilib.gui.button.IButtonActionListener;
-import fi.dy.masa.malilib.gui.interfaces.IGuiIcon;
 import fi.dy.masa.malilib.gui.widgets.WidgetListEntryBase;
 import fi.dy.masa.malilib.render.RenderUtils;
 import fi.dy.masa.malilib.util.GuiUtils;
 import fi.dy.masa.malilib.util.StringUtils;
 import io.github.idarklightning.rematica.Rematic;
-import io.github.idarklightning.rematica.util.AddRepository;
 import io.github.idarklightning.rematica.util.SearchLitematics;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.Nullable;
 
 public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
     private final Rematic placement;
@@ -81,7 +76,7 @@ public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
                 @Override
                 void dispatch(final Rematic rematic) {
                     GuiTextInput gui = new GuiTextInput(2048, StringUtils.translate("rematica.gui.search_repo"), "",
-                            GuiUtils.getCurrentScreen(), new SearchLitematics());
+                            GuiUtils.getCurrentScreen(), new SearchLitematics(rematic));
                     GuiBase.openGui(gui);
                 }
             };
