@@ -104,7 +104,9 @@ public class WidgetSearchResultEntry extends WidgetListEntryBase<SearchResult> {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 tempFile = File.createTempFile("rematic", result.getName());
-                tempFile.deleteOnExit();
+
+                if (action != Action.LOAD) tempFile.deleteOnExit();
+
                 IOUtils.copy(conn.getInputStream(), new FileOutputStream(tempFile));
             } catch (IOException ignored) {
                 return;

@@ -15,8 +15,8 @@ public class AddRepository implements IStringConsumer {
     }
 
     @Override
-    public void setString(String s) {
-        String res = HttpUtils.getRequest(s);
+    public void setString(String url) {
+        String res = HttpUtils.getRequest(url + "/rematica_query");
         Rematic rematic = new Gson().fromJson(res != null ? res : "", Rematic.class);
 
         if (rematic == null || rematic.getName() == null || rematic.getSearchURL() == null) {
@@ -25,5 +25,6 @@ public class AddRepository implements IStringConsumer {
         }
 
         Rematica.REMATICS.add(rematic);
+        Rematic.saveToFile("rematics.json");
     }
 }

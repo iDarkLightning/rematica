@@ -92,6 +92,7 @@ public class WidgetRematicEntry extends WidgetListEntryBase<Rematic> {
                 @Override
                 void dispatch(GuiLoadedRematicsList gui, Rematic rematic) {
                     Rematica.REMATICS.remove(rematic);
+                    Rematic.saveToFile("rematics.json");
                     GuiBase.openGui(gui);
                 }
             };
